@@ -1,0 +1,235 @@
+# Define Alt as first modifier
+set $mod Mod1
+ 
+# Define Super (Win) as secondary modifier to use with personnal shortcuts
+set $win Mod4
+
+# Define workspaces' names
+set $ws1 "1:Term"
+set $ws2 "2:Code"
+set $ws3 "3:IDE"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8:Text"
+set $ws9 "9:Message"
+set $ws10 "10:Web"
+
+# Window's title font. ISO 10646 = Unicode
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+ 
+# Use mod+Mouse yo move floating windows
+floating_modifier $mod
+ 
+# Open a terminal (termite)
+bindsym $mod+Return exec termite
+ 
+# Close active window
+bindsym $mod+Shift+Q kill
+ 
+# Start app launcher (bemenu)
+# Use dmenu with i3
+bindsym $mod+d exec bemenu-run
+ 
+# Move focus between windows with jklm
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+m focus right
+ 
+# Same but with arrow keys
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+ 
+# Move active window with jklm
+bindsym $mod+Shift+J move left
+bindsym $mod+Shift+K move down
+bindsym $mod+Shift+L move up
+bindsym $mod+Shift+M move right
+ 
+# Same but with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+ 
+# Split vertically (ex: mod+h folloxed by mod+Enter open a new terminal next to the first)
+bindsym $mod+h split h
+ 
+# Split vertically (ex: mod+v followed by mod+Enter open a new terminal under the first)
+bindsym $mod+v split v
+ 
+# Fullscreen of the active window
+bindsym $mod+f fullscreen
+ 
+# Change display mode
+# tabbed: window size maximized, windows' titles next to each other, like tabs
+# stacked: window size maximized, windows' titles one above the other
+# default: tiling
+bindsym $mod+s layout stacking
+bindsym $mod+z layout tabbed
+bindsym $mod+e layout default
+ 
+# Alternate active window between floating and tilling
+bindsym $mod+Shift+space floating toggle
+ 
+# Alternate focus between floating and tilling windows
+bindsym $mod+space focus mode_toggle
+ 
+# Give focus to parent container
+bindsym $mod+q focus parent
+ 
+# Give focus to child container
+bindsym $mod+w focus child
+
+# Move between workspaces (keybinds ate those of an azerty keyboard)
+bindsym $mod+ampersand workspace $ws1
+bindsym $mod+eacute workspace $ws2
+bindsym $mod+quotedbl workspace $ws3
+bindsym $mod+apostrophe workspace $ws4
+bindsym $mod+parenleft workspace $ws5
+bindsym $mod+minus workspace $ws6
+bindsym $mod+egrave workspace $ws7
+bindsym $mod+underscore workspace $ws8
+bindsym $mod+ccedilla workspace $ws9
+bindsym $mod+agrave workspace $ws10
+ 
+# Move active window between workspaces (keybinds are those of an azerty keyboard)
+bindsym $mod+Shift+ampersand move container to workspace $ws1
+bindsym $mod+Shift+eacute move container to workspace $ws2
+bindsym $mod+Shift+quotedbl move container to workspace $ws3
+bindsym $mod+Shift+apostrophe move container to workspace $ws4
+bindsym $mod+Shift+parenleft move container to workspace $ws5
+bindsym $mod+Shift+minus move container to workspace $ws6
+bindsym $mod+Shift+egrave move container to workspace $ws7
+bindsym $mod+Shift+underscore move container to workspace $ws8
+bindsym $mod+Shift+ccedilla move container to workspace $ws9
+bindsym $mod+Shift+agrave move container to workspace $ws10
+ 
+# Reload wayland (read this file)
+bindsym $mod+Shift+C reload
+ 
+# Restart wayland (keep all windows, can be used for an update)
+bindsym $mod+Shift+R restart
+ 
+# Leave wayland
+bindsym $mod+Shift+E exit
+ 
+# Resize focused window
+mode "resize" {
+        # Those shortcuts only works in "resize" mode
+
+        # j to shrink width by 10
+        # m to grow width by 10
+        # k to grow height by 10
+        # l to shrink height by 10
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym m resize grow width 10 px or 10 ppt
+ 
+        # Same but with arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+ 
+        # Enter or Escape to come back to normal mode
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+ 
+bindsym $mod+r mode "resize"
+ 
+# Waybar settings (can also use i3bar)
+bar {
+        # Embed i3status in waybar
+        status_command i3status
+        # Bar position (top | bottom)
+	position bottom
+        # System-tray stay on first screen
+	tray_output primary
+ 
+	# Color of workspaces
+	colors {
+		#		  	border	background	text
+		focused_workspace	#FF00FF	#111111		#00FF00
+		# Font color
+		statusline		#EEEEEE
+	}
+}
+ 
+# Focus don't follow mouse (but clicking work)
+focus_follows_mouse no
+ 
+# Retype shortcut to go to a workspace will go back to the previous
+workspace_auto_back_and_forth yes
+ 
+# New window behaviour (tabbed | stack | default is tiled)
+workspace_layout default
+ 
+# New windows borders (normal | none | pixel <px>)
+default_border	 		pixel	1
+default_floating_border		normal
+ 
+# Assign softwares to specific workspaces
+# They will automatically be placed in those when started
+assign [class="code"] $ws2
+assign [class="clion"] $ws3
+for_window [title="LibreOffice"] move to workspace $ws8
+assign [class="discord"] $ws9
+assign [class="firefox"] $ws10
+
+for_window [title="Qalculate!"] floating enable
+
+# Focused window color
+# class	           border	background	text	indicator	child border
+client.focused	   #FF00FF	#FF0000		#00FF00	#FF00FF		#FF00FF
+
+# Launch specific applications
+bindsym $mod+$win+m exec conky
+bindsym Print exec grim -g "$(slurp)" /home/ocisra/Downloads/$(date +'%d%m%Y-%X.png')
+
+# Navigating between workspaces with arrows
+bindsym $mod+$win+Left workspace prev
+bindsym $mod+$win+Right workspace next
+ 
+# Alternate between bordure modes
+bindsym $mod+b border toggle
+
+# Keyboard settings
+input type:keyboard {
+	xkb_layout fr
+	xkb_numlock enable
+	xkb_options caps:swapescape
+}
+
+# Touchpad settings
+input type:touchpad {
+	tap enabled
+	scroll_method two_finger
+}
+
+# Media keys binding
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+				#
+bindsym XF86AudioLowerVolume exec amixer set Master 5%-				#'alsa-utils' package for archlinux
+bindsym XF86AudioMute exec amixer set Master toggle				#
+
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle 	#'pulseaudio' package for archlinux
+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-			#'brightnessctl' package for archlinux
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%				#
+ 
+bindsym XF86AudioPlay exec playerctl play-pause					#
+bindsym XF86AudioNext exec playerctl next					#'playerctl' package for archlinux
+bindsym XF86AudioPrev exec playerctl previous					#
+
+#bindsym XF86AudioStop ...							# not binded but know that this key exist
+
+bindsym XF86Calculator exec qalculate-gtk
+
+# Exec at sway launch
+exec termite
