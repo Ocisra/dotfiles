@@ -5,10 +5,11 @@ set $mod Mod1
 set $win Mod4
 
 # Define workspaces' names
+set $ws0 "0:Mon"
 set $ws1 "1:Term"
-set $ws2 "2:Code"
-set $ws3 "3:IDE"
-set $ws4 "4"
+set $ws2 "2:Term"
+set $ws3 "3:Code"
+set $ws4 "4:Code"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -22,8 +23,8 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Use mod+Mouse yo move floating windows
 floating_modifier $mod
  
-# Open a terminal (termite)
-bindsym $mod+Return exec termite
+# Open a terminal (kitty)
+bindsym $mod+Return exec kitty
  
 # Close active window
 bindsym $mod+Shift+Q kill
@@ -86,6 +87,7 @@ bindsym $mod+q focus parent
 bindsym $mod+w focus child
 
 # Move between workspaces (keybinds ate those of an azerty keyboard)
+bindsym $mod+twosuperior workspace $ws0
 bindsym $mod+ampersand workspace $ws1
 bindsym $mod+eacute workspace $ws2
 bindsym $mod+quotedbl workspace $ws3
@@ -98,6 +100,7 @@ bindsym $mod+ccedilla workspace $ws9
 bindsym $mod+agrave workspace $ws10
  
 # Move active window between workspaces (keybinds are those of an azerty keyboard)
+bindsym $mod+Shift+twosuperior move container to workspace $ws0
 bindsym $mod+Shift+ampersand move container to workspace $ws1
 bindsym $mod+Shift+eacute move container to workspace $ws2
 bindsym $mod+Shift+quotedbl move container to workspace $ws3
@@ -119,7 +122,7 @@ bindsym $mod+Shift+R restart
 bindsym $mod+Shift+E exit
  
 # Resize focused window
-mode "resize" {
+mode "Resize" {
         # Those shortcuts only works in "resize" mode
 
         # j to shrink width by 10
@@ -142,24 +145,28 @@ mode "resize" {
         bindsym Escape mode "default"
 }
  
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "Resize"
  
 # Waybar settings (can also use i3bar)
 bar {
         # Embed i3status in waybar
         status_command i3status
         # Bar position (top | bottom)
-	position bottom
+	    position bottom
         # System-tray stay on first screen
-	tray_output primary
- 
-	# Color of workspaces
-	colors {
-		#		  	border	background	text
-		focused_workspace	#FF00FF	#111111		#00FF00
-		# Font color
-		statusline		#EEEEEE
-	}
+	    tray_output primary
+        # Remove the number from workspaces' names
+        strip_workspace_numbers yes
+	    # Color of workspaces
+	    colors {
+		    #                   border	background	text
+		    focused_workspace	#00DD00	#000000		#00DD00
+            inactive_workspace  #222222 #111111     #555555
+            urgent_workspace    #000000 #009900     #000000
+		    # Font color
+		    statusline		#009900
+            separator       #666666
+	    }
 }
  
 # Focus don't follow mouse (but clicking work)
@@ -177,21 +184,27 @@ default_floating_border		normal
  
 # Assign softwares to specific workspaces
 # They will automatically be placed in those when started
-assign [class="code"] $ws2
 assign [class="clion"] $ws3
-for_window [title="LibreOffice"] move to workspace $ws8
-assign [class="discord"] $ws9
+assign [class="code"] $ws4
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace $ws5
+for_window [title="LibreOffice"] move --no-auto-back-and-forth to workspace $ws8
+for_window [class="discord"] move --no-auto-back-and-forth to workspace $ws9
 assign [class="firefox"] $ws10
 
 for_window [title="Qalculate!"] floating enable
 
 # Focused window color
-# class	           border	background	text	indicator	child border
-client.focused	   #FF00FF	#FF0000		#00FF00	#FF00FF		#FF00FF
+# class	                border	background	text	indicator	child border
+client.focused	        #009900 #009900     #000000	#00AA00		#009900
+client.focused_inactive #333333 #222222     #888888 #292D2E     #222222
+client.unfocused        #333333 #222222     #888888 #292D2E     #222222
+client.urgent           #00EE00 #00EE00     #000000 #00FF00     #00EE00
+
+client.background       #FFFFFF
 
 # Launch specific applications
 bindsym $mod+$win+m exec conky
-bindsym Print exec grim -g "$(slurp)" /home/ocisra/Downloads/$(date +'%d%m%Y-%X.png')
+bindsym Print exec grim -g "$(slurp)" /home/ocisra/Downloads/$(date +'%Y%m%d-%X.png')
 
 # Navigating between workspaces with arrows
 bindsym $mod+$win+Left workspace prev
@@ -224,12 +237,12 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-			#'brightnessctl' pack
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%				#
  
 bindsym XF86AudioPlay exec playerctl play-pause					#
-bindsym XF86AudioNext exec playerctl next					#'playerctl' package for archlinux
+bindsym XF86AudioNext exec playerctl next				    	#'playerctl' package for archlinux
 bindsym XF86AudioPrev exec playerctl previous					#
-
-#bindsym XF86AudioStop ...							# not binded but know that this key exist
+bindsym XF86AudioStop exec playerctl stop						#
 
 bindsym XF86Calculator exec qalculate-gtk
 
 # Exec at sway launch
-exec termite
+exec swaymsg workspace $ws1
+exec redshift -l 48.44:1.49

@@ -1,0 +1,64 @@
+conky.config = {
+    double_buffer = true,
+    own_window = true,
+    no_buffers = true,
+    own_window_class = 'Conky',
+    default_color = '009900',
+    use_xft = true,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    update_interval = 1.0,
+    top_name_width = 11,
+}
+
+conky.text = [[
+${font DejaVu Sans Mono:normal:size=14}${goto 190}Battery
+${font DejaVu Sans Mono:size=10,8}${goto 100}$acpitemp°C ${goto 200}Remaining: $battery_time
+${battery_bar 5,400} $battery_percent%
+
+${font DejaVu Sans Mono:size=14}${goto 210}CPU
+${font DejaVu Sans Mono:size=10,8}${platform coretemp.0/hwmon/hwmon4 temp 1}°C${goto 42}${cpubar cpu0 5,365} ${cpu cpu0}%
+${freq_g 1}GHz ${cpubar cpu1 5,100} ${cpu cpu1}%${tab 119}${freq_g 2}GHz ${cpubar cpu2 5,100} ${cpu cpu2}%
+${freq_g 3}GHz ${cpubar cpu3 5,100} ${cpu cpu3}%${tab 119}${freq_g 4}GHz ${cpubar cpu4 5,100} ${cpu cpu4}%
+${freq_g 5}GHz ${cpubar cpu5 5,100} ${cpu cpu5}%${tab 119}${freq_g 6}GHz ${cpubar cpu6 5,100} ${cpu cpu6}%
+${freq_g 7}GHz ${cpubar cpu7 5,100} ${cpu cpu7}%${tab 119}${freq_g 8}GHz ${cpubar cpu8 5,100} ${cpu cpu8}%
+${cpugraph cpu0 45,432 004400 00DD00 -t}
+
+${font DejaVu Sans Mono:size=14}${goto 198}Memory
+${font DejaVu Sans Mono:size=10,8}${goto 75}${if_match ${to_bytes $mem}<=0}$cached$else$mem$endif/$memmax${goto 270}Free: $memfree
+${goto 78}Cached: $cached${goto 270}Buffered: $buffers
+${membar 5,400} $memperc%
+${memgraph 45,432 004400 00DD00 -t}
+
+${font DejaVu Sans Mono:size=14}${goto 208}Swap
+${font DejaVu Sans Mono:size=10,8}${goto 105}$swap/$swapmax${goto 295}Free: $swapfree
+${swapbar 5,400} $swapperc%
+
+${font DejaVu Sans Mono:size=14}${goto 180}Processes
+${font DejaVu Sans Mono:size=10,8}${goto 85}Processes: $processes${goto 270}Running: $running_processes
+${goto 93}Threads: $threads${goto 270}Running: $running_threads
+${goto 88}1m: ${loadavg 1}${goto 190}5m: ${loadavg 2}${goto 290}15m: ${loadavg 3}
+${loadgraph 40,432 000000 00DD00 2 -t}
+${goto 70}Top CPU${goto 292}Top Mem
+Name           CPU%  MEM%   Name           CPU%  MEM%
+ ${top name 1} ${top cpu 1}${top mem 1}${goto 240}${top_mem name 1} ${top_mem cpu 1}${top_mem mem 1}
+ ${top name 2} ${top cpu 2}${top mem 2}${goto 240}${top_mem name 2} ${top_mem cpu 2}${top_mem mem 2}
+ ${top name 3} ${top cpu 3}${top mem 3}${goto 240}${top_mem name 3} ${top_mem cpu 3}${top_mem mem 3}
+ ${top name 4} ${top cpu 4}${top mem 4}${goto 240}${top_mem name 4} ${top_mem cpu 4}${top_mem mem 4}
+
+${goto 70}Top I/O${goto 290}Top Time
+Name          Read    Write    Name           CPU Time
+ ${top_io name 1}  ${top_io io_read 1}${goto 188}${top_io io_write 1}${goto 257} ${top_time name 1} ${top_time time 1}
+ ${top_io name 2}  ${top_io io_read 2}${goto 188}${top_io io_write 2}${goto 257} ${top_time name 2} ${top_time time 2}
+ ${top_io name 3}  ${top_io io_read 3}${goto 188}${top_io io_write 3}${goto 257} ${top_time name 3} ${top_time time 3}
+ ${top_io name 4}  ${top_io io_read 4}${goto 188}${top_io io_write 4}${goto 257} ${top_time name 4} ${top_time time 4}
+
+${font DejaVu Sans Mono:size=14}${goto 190}Entropy
+${font DejaVu Sans Mono:size=10,8}${goto 177}$entropy_avail of $entropy_poolsize
+${entropy_bar 5,400} $entropy_perc%
+
+${font DejaVu Sans Mono:size=14}${goto 195}System
+${font DejaVu Sans Mono:size=10,8}${goto 90}$sysname  $nodename  $kernel  $machine
+${goto 157}Uptime: $uptime
+${goto 165}tty1: ${user_time tty1}
+]]

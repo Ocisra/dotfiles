@@ -1,0 +1,38 @@
+conky.config = {
+    double_buffer = true,
+    own_window = true,
+    no_buffers = true,
+    own_window_class = 'Conky',
+    default_color = '009900',
+    use_xft = true,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    update_interval = 1.0,
+    top_name_width = 12,
+    minimum_height = 750,
+}
+
+conky.text = [[
+${font DejaVu Sans Mono:size=14}${goto 208}Disk
+${font DejaVu Sans Mono:size=10,8}${goto 214}${hddtemp /dev/sda}°C
+
+${goto 70}/dev/sda2${goto 227}${font DejaVu Sans Mono:size=12}/${font DejaVu Sans Mono:size=10,8}${goto 350}${fs_type /}
+${goto 100}${fs_used /}/${fs_size /}${goto 300}${fs_free /}
+${fs_bar 5,400 /} ${fs_used_perc /}%
+${voffset 28}Read : ${voffset -20}${diskiograph_read /dev/sda2 50,342 000000 00FF00 -t} ${voffset -28}${diskio_read /dev/sda2}
+${voffset 38}Write: ${voffset -20}${diskiograph_write /dev/sda2 50,342 000000 00FF00 -t} ${voffset -28}${diskio_write /dev/sda2}
+
+${voffset 20}${goto 70}/dev/sda3${goto 210}${font DejaVu Sans Mono:size=12}/home${font DejaVu Sans Mono:size=10,8}${goto 350}${fs_type /home}
+${goto 100}${fs_used /home}/${fs_size /home}${goto 300}${fs_free /home}
+${fs_bar 5,400 /home} ${fs_used_perc /home}%
+${voffset 28}Read : ${voffset -20}${diskiograph_read /dev/sda3 50,342 000000 00FF00 -t} ${voffset -28}${diskio_read /dev/sda3}
+${voffset 38}Write: ${voffset -20}${diskiograph_write /dev/sda3 50,342 000000 00FF00 -t} ${voffset -28}${diskio_write /dev/sda3}
+
+${if_existing /dev/sdb}${voffset 20}${goto 194}${font DejaVu Sans Mono:size=12}/dev/sdb${font DejaVu Sans Mono:size=10,8}
+${voffset 28}Read : ${voffset -20}${diskiograph_read /dev/sdb 50,342 000000 00FF00 -t} ${voffset -28}${diskio_read /dev/sdb}
+${voffset 38}Write: ${voffset -20}${diskiograph_write /dev/sdb 50,342 000000 00FF00 -t} ${voffset -28}${diskio_write /dev/sdb}$endif
+
+${if_existing /dev/sdc}${voffset 20}${goto 194}${font DejaVu Sans Mono:size=12}/dev/sdc${font DejaVu Sans Mono:size=10,8}
+${voffset 28}Read : ${voffset -20}${diskiograph_read /dev/sdc 50,342 000000 00FF00 -t} ${voffset -28}${diskio_read /dev/sdc}
+${voffset 38}Write: ${voffset -20}${diskiograph_write /dev/sdc 50,342 000000 00FF00 -t} ${voffset -28}${diskio_write /dev/sdc}$endif
+]]

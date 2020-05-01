@@ -1,0 +1,22 @@
+conky.config = {
+    double_buffer = true,
+    own_window = true,
+    no_buffers = true,
+    own_window_class = 'Conky',
+    default_color = '009900',
+    use_xft = true,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    update_interval = 1.0,
+    top_name_width = 12,
+    minimum_height = 200,
+}
+
+conky.text = [[
+${font DejaVu Sans Mono:normal:size=14}${goto 190}Network
+${font DejaVu Sans Mono:size=10,8}${goto 50}wlp2s0 at ${wireless_essid wlp2s0}${goto 300}${wireless_bitrate wlp2s0}
+${wireless_link_bar 5,400 wlp2s0} ${wireless_link_qual_perc wlp2s0}%
+${goto 40}$gw_ip${goto 170}${wireless_ap wlp2s0}${goto 345}${wireless_mode wlp2s0}
+${voffset 28}Down: ${voffset -20}${downspeedgraph wlp2s0 50,350 000000 00DD00 -t} ${voffset -28}${downspeed wlp2s0}
+${voffset 38} Up : ${voffset -20}${upspeedgraph wlp2s0 50,350 000000 00DD00 -t} ${voffset -28}${upspeed wlp2s0}
+]]

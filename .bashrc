@@ -14,7 +14,11 @@ alias screen='grim -g "$(slurp)" screenshot.png' #'grim' and 'slurp' are wayland
 alias maintenance='sudo ~/script/maintenance.sh' #personal script for maintenance
 alias start='wifi; maintenance'
 #line displayed before your command on the shell
-PS1="\n\[\033[1;37m\]\342\224\214\$([[ \$? != 0 ]] && echo -e \"(\[\033[0;31m\]\xE2\x9C\x97\[\033[1;37m\])\")\342\224\200($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\A \d\[\033[1;37m\])\[\033[1;37m\]\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\n\342\224\224\342\224\200> \[\033[0m\]"
+#for the colors : \033[colorcodem\] (don't forget the m)
+#                 colorcode can be the form : 1;code for native bash colors 
+#                                             38;5;code for ansi sequence in foreground
+#                                             48;5;code for ansi sequence in background
+PS1="\n\[\033[1;37m\]\342\224\214\$([[ \$? != 0 ]] && echo -e \"(\[\033[0;31m\]\xE2\x9C\x97\[\033[1;37m\])\")\342\224\200($(if [[ ${EUID} == 0 ]]; then echo '\[\033[38;5;34m\]\h'; else echo '\[\033[38;5;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\[\033[38;5;34m\]\A \d\[\033[1;37m\])\[\033[1;37m\]\342\224\200(\[\033[38;5;34m\]\w\[\033[1;37m\])\n\342\224\224\342\224\200> \[\033[0m\]"
 
 # Automatically prepend 'cd ' when a path is typed
 shopt -s autocd
