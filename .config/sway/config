@@ -31,7 +31,7 @@ bindsym $mod+Shift+Q kill
  
 # Start app launcher (bemenu)
 # Use dmenu with i3
-bindsym $mod+d exec bemenu-run
+bindsym $mod+d exec bemenu-run --fn DejaVu Sans Mono --tb=#00bb00 --tf=#000000 --fb=#000000 --ff=#00dd00 --nb=#000000 --nf=#007700 --hb=#00bb00 --hf=#000000 
  
 # Move focus between windows with jklm
 bindsym $mod+j focus left
@@ -246,3 +246,4 @@ bindsym XF86Calculator exec qalculate-gtk
 # Exec at sway launch
 exec swaymsg workspace $ws1
 exec redshift -l 48.44:1.49
+exec "systemctl --user import-environment; systemctl --user start sway-session.target"

@@ -38,7 +38,7 @@ ${font DejaVu Sans Mono:size=14}${goto 180}Processes
 ${font DejaVu Sans Mono:size=10,8}${goto 85}Processes: $processes${goto 270}Running: $running_processes
 ${goto 93}Threads: $threads${goto 270}Running: $running_threads
 ${goto 88}1m: ${loadavg 1}${goto 190}5m: ${loadavg 2}${goto 290}15m: ${loadavg 3}
-${loadgraph 40,432 000000 00DD00 2 -t}
+${loadgraph 40,432 000000 00DD00 -t}
 ${goto 70}Top CPU${goto 292}Top Mem
 Name           CPU%  MEM%   Name           CPU%  MEM%
  ${top name 1} ${top cpu 1}${top mem 1}${goto 240}${top_mem name 1} ${top_mem cpu 1}${top_mem mem 1}
