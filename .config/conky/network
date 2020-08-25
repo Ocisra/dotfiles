@@ -17,6 +17,6 @@ ${font DejaVu Sans Mono:normal:size=14}${goto 190}Network
 ${font DejaVu Sans Mono:size=10,8}${goto 50}wlp2s0 at ${wireless_essid wlp2s0}${goto 300}${wireless_bitrate wlp2s0}
 ${wireless_link_bar 5,400 wlp2s0} ${wireless_link_qual_perc wlp2s0}%
 ${goto 40}$gw_ip${goto 170}${wireless_ap wlp2s0}${goto 345}${wireless_mode wlp2s0}
-${voffset 28}Down: ${voffset -20}${downspeedgraph wlp2s0 50,350 000000 00DD00 -t} ${voffset -28}${downspeed wlp2s0}
-${voffset 38} Up : ${voffset -20}${upspeedgraph wlp2s0 50,350 000000 00DD00 -t} ${voffset -28}${upspeed wlp2s0}
+${voffset 28}Down: ${voffset -20}${downspeedgraph wlp2s0 50,350 000000 00DD00 1000000 -t} ${voffset -28}${downspeed wlp2s0}
+${voffset 38} Up : ${voffset -20}${upspeedgraph wlp2s0 50,350 000000 00DD00 200000 -t} ${voffset -28}${upspeed wlp2s0}
 ]]

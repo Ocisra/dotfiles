@@ -7,9 +7,11 @@
 
 alias ls='ls --color=auto'
 alias grep="grep --color=auto"
+alias pacman="pacman --color=auto"
+alias dmesg="dmesg -T"
+
 alias ping="ping -c1 archlinux.org"
 alias wifi="sudo wifi-menu -o"
-alias lsa="ls -a"
 alias screen='grim -g "$(slurp)" screenshot.png' #'grim' and 'slurp' are wayland utilities
 alias maintenance='sudo ~/script/maintenance.sh' #personal script for maintenance
 alias start='wifi; maintenance'
@@ -23,7 +25,11 @@ PS1="\n\[\033[1;37m\]\342\224\214\$([[ \$? != 0 ]] && echo -e \"(\[\033[0;31m\]\
 
 # Automatically prepend 'cd ' when a path is typed
 shopt -s autocd
+# Correct spelling error in 'cd'
+shopt -s cdspell
+# Correct spelling error in directory typing
+shopt -s dirspell
 
 
-export EDITOR=vim
+export EDITOR=nvim
 export Term=screen-256color

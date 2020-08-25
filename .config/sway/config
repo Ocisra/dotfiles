@@ -10,7 +10,7 @@ set $ws1 "1:Term"
 set $ws2 "2:Term"
 set $ws3 "3:Code"
 set $ws4 "4:Code"
-set $ws5 "5"
+set $ws5 "5:Music"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8:Text"
@@ -147,16 +147,20 @@ mode "Resize" {
  
 bindsym $mod+r mode "Resize"
  
-# Waybar settings (can also use i3bar)
+# Swaybar settings (can also use i3bar)
 bar {
-        # Embed i3status in waybar
-        status_command i3status
+        # Embed i3status in swaybar
+        status_command ~/.config/i3status/playerctl.sh
         # Bar position (top | bottom)
 	    position bottom
         # System-tray stay on first screen
 	    tray_output primary
         # Remove the number from workspaces' names
         strip_workspace_numbers yes
+        # Hide and  only show when win pressed
+        mode dock
+        hidden_state hide
+        modifier $win
 	    # Color of workspaces
 	    colors {
 		    #                   border	background	text
@@ -232,7 +236,6 @@ bindsym XF86AudioLowerVolume exec amixer set Master 5%-				#'alsa-utils' package
 bindsym XF86AudioMute exec amixer set Master toggle				#
 
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle 	#'pulseaudio' package for archlinux
-
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-			#'brightnessctl' package for archlinux
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%				#
  
@@ -242,6 +245,9 @@ bindsym XF86AudioPrev exec playerctl previous					#
 bindsym XF86AudioStop exec playerctl stop						#
 
 bindsym XF86Calculator exec qalculate-gtk
+
+# Wallpaper
+output "*" bg ~/.config/sway/arch-green.png fill
 
 # Exec at sway launch
 exec swaymsg workspace $ws1
