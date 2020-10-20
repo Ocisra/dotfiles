@@ -15,6 +15,7 @@ alias wifi="sudo wifi-menu -o"
 alias screen='grim -g "$(slurp)" screenshot.png' #'grim' and 'slurp' are wayland utilities
 alias maintenance='sudo ~/script/maintenance.sh' #personal script for maintenance
 alias start='wifi; maintenance'
+alias usb='sudo ~/script/usb.sh'
 alias cmon='conky -dc ~/.config/conky/cpu-mem-proc; conky -dc ~/.config/conky/network; conky -dc ~/.config/conky/disk'
 #line displayed before your command on the shell
 #for the colors : \033[colorcodem\] (don't forget the m)

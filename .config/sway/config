@@ -146,7 +146,20 @@ mode "Resize" {
 }
  
 bindsym $mod+r mode "Resize"
- 
+
+# Control the nagbar
+mode "Nagbar" {
+        # Those shortcuts only works in "nagbar" mode
+        
+        bindsym q exec killall swaynag
+
+        # Enter or Escape to come back to normal mode
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+n mode "Nagbar"
+
 # Swaybar settings (can also use i3bar)
 bar {
         # Embed i3status in swaybar
@@ -246,6 +259,7 @@ bindsym XF86AudioStop exec playerctl stop						#
 
 bindsym XF86Calculator exec qalculate-gtk
 
+bindsym XF86Sleep exec swaylock -C ~/.config/swaylock/config
 # Wallpaper
 output "*" bg ~/.config/sway/arch-green.png fill
 

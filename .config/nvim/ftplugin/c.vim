@@ -11,4 +11,4 @@ noremap <F9> <Esc>:Break<CR>
 " Shift F9 is mapped to F21 in kitty
 noremap <F21> <Esc>:Clear<CR>
 
-noremap <F7> <Esc>:!gcc
+noremap <F7> <Esc>:!makefile

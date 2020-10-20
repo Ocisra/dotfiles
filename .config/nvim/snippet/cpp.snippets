@@ -3,3 +3,20 @@ for (auto $1 = $2.begin(); $1 < $2.end(); ++$1) {
 	$0
 }
 endsnippet
+
+snippet forran "for loop range based" w
+for (auto& $1 : $2) {
+	$0
+}
+endsnippet
+
+snippet dfn "doxygen like documented function" w
+/**
+ * @brief $4
+ *
+ * @return
+ */
+$1 $2 ($3) {
+	$0
+}
+endsnippet
