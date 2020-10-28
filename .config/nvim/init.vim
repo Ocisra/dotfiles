@@ -5,6 +5,7 @@ call plug#begin('~/.config/nvim/plugged')
 " color scheme
 Plug 'morhetz/gruvbox'
 set termguicolors
+let g:gruvbox_bold=0
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_sign_column='bg0'
@@ -22,9 +23,10 @@ let g:tex_conceal='abdmg'
 
 " snipets
 Plug 'sirver/ultisnips'
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+let g:UltiSnipsExpandTrigger='<C-TAB>'
+let g:UltiSnipsJumpForwardTrigger='<C-TAB>'
+let g:UltiSnipsJumpBackwardTrigger='<S-TAB>'
+let g:UltiSnipsListSnippets=''
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
 
 " auto pair
@@ -39,21 +41,23 @@ Plug 'preservim/nerdcommenter'
 
 " tag bar
 Plug 'majutsushi/tagbar'
+let g:tagbar_compact=2
+let g:tagbar_ctags_options=['/home/ocisra/.config/ctags/']
 
 " line for each indentation
 Plug 'yggDroot/indentline'
 
-" lint
-Plug 'dense-analysis/ale'
-let g:ale_linters = {'c': ['clangd'], 'cpp': ['clangd']}
-let g:ale_fixers = {'c': ['clangtidy', 'clang-format'], 'cpp': ['clangtidy', 'clang-format']}
-let g:ale_cpp_cc_options='-std=c++20 -Wall'
-let g:ale_cpp_clangd_options='--clang-tidy'
+" lsp
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/diagnostic-nvim'
+let g:diagnostic_insert_delay=1
 
 " completion
 Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete-lsp'
 let g:deoplete#enable_at_startup = 1
-set completeopt=menu,noinsert
+set completeopt=menu,noinsert,noselect
+let deoplete#tag#cache_limit_size=500000000
 
 " undo history
 Plug 'mbbill/undotree'
@@ -63,9 +67,20 @@ let g:undotree_HelpLine=0
 
 call plug#end()
 
-"call deoplete#custom#option('sources', {
-"            \ '_': ['ale'],
-"            \})
+" deoplete will produce verbose errors and stop if the lsp does not support
+" the language currently edited
+call deoplete#custom#option(
+    \'sources', {
+        \ '_': ['lsp'],
+   \}
+\)
+
+" load ls 
+lua << EOF
+    require'nvim_lsp'.clangd.setup{on_attach=require'diagnostic'.on_attach}
+    require'nvim_lsp'.bashls.setup{on_attach=require'diagnostic'.on_attach}
+    require'nvim_lsp'.vimls.setup{on_attach=require'diagnostic'.on_attach}
+EOF
 " }}}
 " System ------------------------------- {{{
 " This line should not be removed as it ensures that various options are
@@ -88,7 +103,7 @@ set lazyredraw
 set noswapfile
 
 " }}}
-" Color -------------------------------- {{{
+" Color --------- ----------------------- {{{
 " syntax highlighting
 filetype plugin on
 syntax on
@@ -96,19 +111,14 @@ syntax on
 " color scheme
 set t_Co=256
 colorscheme gruvbox
-" Those are handled by gruvbox but might be needed with other colorscheme 
-" highlight Normal ctermbg=NONE
-" highlight nonText ctermbg=NONE
-" highlight EndOfBuffer ctermbg=NONE
-" highlight Folded ctermbg=NONE
-" highlight Conceal ctermbg=NONE
-" highlight SpellBad ctermbg=NONE 
-"
-" ale colors
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
-" highlight ALEErrorSign ctermbg=234 ctermfg=Red
-" highlight ALEWarningSign ctermbg=234 ctermfg=Red
+
+" lsp diagnostics
+" highlights won't break if the colorscheme is changed but it may not render
+" so well
+call sign_define("LspDiagnosticsErrorSign", {"text": ">>", "texthl": "ErrorMsg"})
+call sign_define("LspDiagnosticsWarningSign", {"text": "--", "texthl": "WarningMsg"})
+call sign_define("LspDiagnosticsInformationSign", {"text": "..", "texthl": "Question"})
+call sign_define("LspDiagnosticsHintSign", {"text": ".", "texthl": "Title"})
 
 " highlight current line
 set cursorline
@@ -132,7 +142,7 @@ nnoremap <space> za
 " line break not in the middle of a word
 set linebreak
 " }}}
-" Shortcuts -------------- -------------- {{{
+" Shortcuts -------------- -------- ------ {{{
 " enable left/right arrow to move to prev/next line
 set whichwrap=b,s,<,>,[,]
 
@@ -140,7 +150,11 @@ set whichwrap=b,s,<,>,[,]
 let mapleader=","
 
 " source shortcut
-nnoremap <leader>sv :source ~/.config/nvim/init.vim
+noremap <leader>sv <cmd>source ~/.config/nvim/init.vim<CR>
+
+" completion
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " tagbar
 nnoremap <leader>t :TagbarToggle<CR> 
@@ -150,24 +164,28 @@ nnoremap <leader>m :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
-" nerdcommenter
-inoremap <C-c> <plug>NERDCommenterInsert
+" jumps
+noremap <leader>o <C-o>
+noremap <leader>i <C-i>
 
-" ale
-inoremap <F2> <Esc>:ALEHover<CR>
-noremap <F2> :ALEHover<CR>
-inoremap <F14> <Esc>:ALEDetail<CR>
-noremap <F14> :ALEDetail<CR>
-inoremap <F3> <Esc>:ALENext<CR>
-noremap <F3> :ALENext<CR>
-inoremap <F4> <Esc>:ALEGoToDefinition<CR>
-noremap <F4> :ALEGoToDefinition<CR>
-inoremap <F16> <Esc>:ALEFindReferences<CR>
-noremap <F16> :ALEFindReferences<CR>
+" lsp
+" unconvenient mapping is wanted, they are only used while debugging 
+noremap <F2> <cmd>lua vim.lsp.buf.code_action()<CR>
+noremap <F14> <cmd>lua vim.lsp.buf.signature_help()<CR>
+noremap <F3> <cmd>lua vim.lsp.buf.rename()<CR>
+noremap <F15> <cmd>lua vim.lsp.buf.references()<CR>
+noremap <F4> <cmd>lua vim.lsp.buf.type_definition()<CR>
+noremap <F16> <cmd>lua vim.lsp.buf.declaration()<CR>
+noremap <leader>d <cmd>lua vim.lsp.buf.definition()<CR>
+noremap <leader>ee <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+noremap <leader>ep <cmd>PrevDiagnosticCycle<CR>
+noremap <leader>en <cmd>NextDiagnosticCycle<CR>
+
 
 " undotree
-inoremap <F15> <Esc>:UndotreeToggle<CR>
-noremap <F15> :UndotreeToggle<CR>
+" shift F1 is not convenient, change if i use regularly 
+inoremap <F13> <cmd>UndotreeToggle<CR>
+noremap <F13> <cmd>UndotreeToggle<CR>
 
 " window navigation
 nnoremap <C-h> <C-w>h
@@ -181,10 +199,10 @@ inoremap <C-l> <C-\><C-N><C-w>l
 
 " terminal (for Termdebug)
 tnoremap <Esc> <C-\><C-N>
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
+tnoremap <C-h> <C-\><C-N><C-w>h
+tnoremap <C-j> <C-\><C-N><C-w>j
+tnoremap <C-k> <C-\><C-N><C-w>k
+tnoremap <C-l> <C-\><C-N><C-w>l
 
 " }}}
 " Misc -------------------------------- {{{
@@ -216,51 +234,45 @@ set splitright
 " Statusline -------------------------- {{{
 set laststatus=2
 
-function! LinterError() abort 
-    let l:count = ale#statusline#Count(bufnr(''))
-    let l:error = l:count.error + l:count.style_error
-    
-    if l:error != 0 
-        return l:error
+function! ErrorCount() abort 
+    let l:errorCount=luaeval("vim.lsp.util.buf_diagnostics_count([[Error]])")
+    if l:errorCount != 0
+        return l:errorCount
     endif
     return ""
 endfun
 
-function! LinterWarning() abort
-    let l:count = ale#statusline#Count(bufnr(''))
-    let l:error = l:count.error + l:count.style_error
-    let l:warning = l:count.warning - l:count.style_warning
-
-    if l:warning != 0 
-        return l:warning
+function! WarningCount() abort
+    let l:warningCount=luaeval("vim.lsp.util.buf_diagnostics_count([[Warning]])")
+    if l:warningCount != 0
+        return l:warningCount
     endif
     return ""
-
 endfun
 
 function! ModeName() abort
     let l:mode = mode()
     if l:mode == 'i'
-        return "INSERT"
+        return "-- INSERT --"
     elseif l:mode == 'v' || l:mode == 'V'
-        return "VISUAL"
+        return "-- VISUAL --"
     elseif l:mode == 'r' || l:mode == 'R'
-        return "REPLACE"
+        return "-- RPLACE --"
     elseif l:mode == 's' || l:mode == 'S'
-        return "SELECT"
+        return "-- SELECT --"
     endif
     return ""
 endfun
 
-set statusline=%#TabLineSel#
-set statusline+=%(%{ModeName()}\ %)
+set statusline=%(%#DiffAdd#%{ModeName()}%#TabLineSel#\ %)
+set statusline+=%#TabLineSel#
 set statusline+=%f
 set statusline+=\ %h
 set statusline+=\ %r
 set statusline+=\ %w
 set statusline+=%=
-set statusline+=%#CursorLineNr#%(Err:\ %{LinterError()}%)
-set statusline+=%#CursorLineNr#%(\ Warn:\ %{LinterWarning()}%)
+set statusline+=%#CursorLineNr#%(Err:\ %{ErrorCount()}%)
+set statusline+=%#CursorLineNr#%(\ Warn:\ %{WarningCount()}%)
 set statusline+=%#TabLineSel#
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
