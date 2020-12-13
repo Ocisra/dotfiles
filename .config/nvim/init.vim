@@ -23,9 +23,9 @@ let g:tex_conceal='abdmg'
 
 " snipets
 Plug 'sirver/ultisnips'
-let g:UltiSnipsExpandTrigger='<C-TAB>'
-let g:UltiSnipsJumpForwardTrigger='<C-TAB>'
-let g:UltiSnipsJumpBackwardTrigger='<S-TAB>'
+" ugly workaround so ultisnips won't override my mapping of <Tab>
+" this won't be fixed by maintainer of ultisnips
+let g:UltiSnipsExpandTrigger='<NUL>'
 let g:UltiSnipsListSnippets=''
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
 
@@ -53,11 +53,13 @@ Plug 'nvim-lua/diagnostic-nvim'
 let g:diagnostic_insert_delay=1
 
 " completion
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/deoplete-lsp'
-let g:deoplete#enable_at_startup = 1
-set completeopt=menu,noinsert,noselect
-let deoplete#tag#cache_limit_size=500000000
+Plug 'nvim-lua/completion-nvim'
+let g:completion_enable_snippet='UltiSnips'
+" i have to remap <CR> or it will override other mapping (auto-pair)
+let g:completion_confirm_key=""
+imap <expr> <CR> pumvisible() ? complete_info()["selected"] != "-1" ? "\<Plug>(completion_confirm_completion)" : "\<C-e>\<CR>" : "\<CR>"
+set completeopt=noinsert,noselect,menuone
+set shortmess+=c
 
 " undo history
 Plug 'mbbill/undotree'
@@ -67,19 +69,15 @@ let g:undotree_HelpLine=0
 
 call plug#end()
 
-" deoplete will produce verbose errors and stop if the lsp does not support
-" the language currently edited
-call deoplete#custom#option(
-    \'sources', {
-        \ '_': ['lsp'],
-   \}
-\)
-
 " load ls 
 lua << EOF
-    require'nvim_lsp'.clangd.setup{on_attach=require'diagnostic'.on_attach}
-    require'nvim_lsp'.bashls.setup{on_attach=require'diagnostic'.on_attach}
-    require'nvim_lsp'.vimls.setup{on_attach=require'diagnostic'.on_attach}
+    local on_attach_vim = function(client)
+        require'completion'.on_attach(client)
+        require'diagnostic'.on_attach(client)
+    end
+    require'nvim_lsp'.clangd.setup{on_attach=on_attach_vim}
+    require'nvim_lsp'.bashls.setup{on_attach=on_attach_vim}
+    require'nvim_lsp'.vimls.setup{on_attach=on_attach_vim}
 EOF
 " }}}
 " System ------------------------------- {{{
@@ -142,7 +140,7 @@ nnoremap <space> za
 " line break not in the middle of a word
 set linebreak
 " }}}
-" Shortcuts -------------- -------- ------ {{{
+" Shortcuts --------- ----- -------- ------ {{{
 " enable left/right arrow to move to prev/next line
 set whichwrap=b,s,<,>,[,]
 
@@ -153,8 +151,11 @@ let mapleader=","
 noremap <leader>sv <cmd>source ~/.config/nvim/init.vim<CR>
 
 " completion
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" snippets
+inoremap <C-u> <cmd>call UltiSnips#ExpandSnippetOrJump()<CR>
 
 " tagbar
 nnoremap <leader>t :TagbarToggle<CR> 
@@ -171,11 +172,11 @@ noremap <leader>i <C-i>
 " lsp
 " unconvenient mapping is wanted, they are only used while debugging 
 noremap <F2> <cmd>lua vim.lsp.buf.code_action()<CR>
-noremap <F14> <cmd>lua vim.lsp.buf.signature_help()<CR>
+noremap <F14> <cmd>lua vim.lsp.buf.formatting()<CR>
 noremap <F3> <cmd>lua vim.lsp.buf.rename()<CR>
 noremap <F15> <cmd>lua vim.lsp.buf.references()<CR>
-noremap <F4> <cmd>lua vim.lsp.buf.type_definition()<CR>
-noremap <F16> <cmd>lua vim.lsp.buf.declaration()<CR>
+noremap <F16> <cmd>lua vim.lsp.buf.type_definition()<CR>
+noremap <F4> <cmd>lua vim.lsp.buf.declaration()<CR>
 noremap <leader>d <cmd>lua vim.lsp.buf.definition()<CR>
 noremap <leader>ee <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 noremap <leader>ep <cmd>PrevDiagnosticCycle<CR>
@@ -227,9 +228,11 @@ set modelines=5
 set splitbelow
 set splitright
 
-" }}}
-" Latex -------------------------------- {{{
+set whichwrap+=<,>,h,l
 
+" }}}
+" Scripts ----------------------------- {{{
+command RightColumn :source ~/.config/nvim/scripts/right-column.vim 
 " }}}
 " Statusline -------------------------- {{{
 set laststatus=2

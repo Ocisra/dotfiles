@@ -8,7 +8,8 @@ noremap <F10> <Esc>:Over<CR>
 noremap <F11> <Esc>:Step<CR>
 noremap <F9> <Esc>:Break<CR>
 noremap <F21> <Esc>:Clear<CR>
-noremap <F7> <Esc>:!makefile
+noremap <F7> <Esc>:!make
+
 
 
 let g:tagbar_type_cpp = {

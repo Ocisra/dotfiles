@@ -9,7 +9,7 @@ conky.config = {
     net_avg_samples = 2,
     update_interval = 1.0,
     top_name_width = 12,
-    minimum_height = 200,
+    minimum_height = 400,
 }
 
 conky.text = [[
@@ -19,4 +19,8 @@ ${wireless_link_bar 5,400 wlp2s0} ${wireless_link_qual_perc wlp2s0}%
 ${goto 40}$gw_ip${goto 170}${wireless_ap wlp2s0}${goto 345}${wireless_mode wlp2s0}
 ${voffset 28}Down: ${voffset -20}${downspeedgraph wlp2s0 50,350 000000 00DD00 1000000 -t} ${voffset -28}${downspeed wlp2s0}
 ${voffset 38} Up : ${voffset -20}${upspeedgraph wlp2s0 50,350 000000 00DD00 200000 -t} ${voffset -28}${upspeed wlp2s0}
+
+${voffset 20}${font DejaVu Sans Mono:size=10,8}${goto 80}enp0s20f0u3 ${goto 270}$gw_ip
+${voffset 28}Down: ${voffset -20}${downspeedgraph enp0s20f0u3 50,350 000000 00DD00 1000000 -t} ${voffset -28}${downspeed enp0s20f0u3}
+${voffset 38} Up : ${voffset -20}${upspeedgraph enp0s20f0u3 50,350 000000 00DD00 200000 -t} ${voffset -28}${upspeed enp0s20f0u3}
 ]]

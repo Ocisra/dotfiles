@@ -1,0 +1,24 @@
+snippet def "define" bA
+#define
+endsnippet
+
+snippet ic "include" bA
+#include <$1>
+$0
+endsnippet
+
+snippet icc "include custom header" bA
+#include "$1"
+$0
+endsnippet
+
+snippet dfn "doxygen like documented function" w
+/**
+ * @brief $4
+ *
+ * @return
+ */
+$1 ($2) {
+	$0
+}
+endsnippet

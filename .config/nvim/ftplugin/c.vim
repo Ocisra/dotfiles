@@ -11,7 +11,7 @@ noremap <F9> <Esc>:Break<CR>
 " Shift F9 is mapped to F21 in kitty
 noremap <F21> <Esc>:Clear<CR>
 
-noremap <F7> <Esc>:!makefile
+noremap <F7> <Esc>:!make
 
 
 let g:tagbar_type_c = {

@@ -4,7 +4,8 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-# exec sway on login
+# exec sway on login on tty1
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-	exec sway
+	export XDG_CURRENT_DESKTOP=sway
+    exec sway
 fi

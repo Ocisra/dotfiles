@@ -20,7 +20,7 @@ set $ws10 "10:Web"
 # Window's title font. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
  
-# Use mod+Mouse yo move floating windows
+# Use mod+Mouse to move floating windows
 floating_modifier $mod
  
 # Open a terminal (kitty)
@@ -31,13 +31,13 @@ bindsym $mod+Shift+Q kill
  
 # Start app launcher (bemenu)
 # Use dmenu with i3
-bindsym $mod+d exec bemenu-run --fn DejaVu Sans Mono --tb=#00bb00 --tf=#000000 --fb=#000000 --ff=#00dd00 --nb=#000000 --nf=#007700 --hb=#00bb00 --hf=#000000 
+bindsym Menu exec bemenu-run --fn DejaVu Sans Mono --tb=#00bb00 --tf=#000000 --fb=#000000 --ff=#00dd00 --nb=#000000 --nf=#007700 --hb=#00bb00 --hf=#000000 
  
-# Move focus between windows with jklm
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+m focus right
+# Move focus between windows with hjkl
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
  
 # Same but with arrow keys
 bindsym $mod+Left focus left
@@ -45,22 +45,23 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
  
-# Move active window with jklm
-bindsym $mod+Shift+J move left
-bindsym $mod+Shift+K move down
-bindsym $mod+Shift+L move up
-bindsym $mod+Shift+M move right
- 
+# Move active window with hjkl
+bindsym $mod+Shift+H move left
+bindsym $mod+Shift+J move down
+bindsym $mod+Shift+K move up
+bindsym $mod+Shift+L move right
+
 # Same but with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
  
-# Split vertically (ex: mod+h folloxed by mod+Enter open a new terminal next to the first)
-bindsym $mod+h split h
+# Split horizontally (ex: mod+z folloxed by mod+Enter open a new terminal next to the first)
+# I choosed b because it's next to v (vertical) and I wanted to use h for movements like in vim
+bindsym $mod+b split h
  
-# Split vertically (ex: mod+v followed by mod+Enter open a new terminal under the first)
+# Split Vertically (ex: mod+v followed by mod+Enter open a new terminal under the first)
 bindsym $mod+v split v
  
 # Fullscreen of the active window
@@ -125,14 +126,14 @@ bindsym $mod+Shift+E exit
 mode "Resize" {
         # Those shortcuts only works in "resize" mode
 
-        # j to shrink width by 10
-        # m to grow width by 10
+        # h to shrink width by 10
+        # j to grow width by 10
         # k to grow height by 10
         # l to shrink height by 10
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym m resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
  
         # Same but with arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -223,24 +224,25 @@ client.background       #FFFFFF
 bindsym $mod+$win+m exec conky
 bindsym Print exec grim -g "$(slurp)" /home/ocisra/Downloads/$(date +'%Y%m%d-%X.png')
 
-# Navigating between workspaces with arrows
+# Navigating between workspaces with arrows and hl
 bindsym $mod+$win+Left workspace prev
 bindsym $mod+$win+Right workspace next
+bindsym $mod+$win+h workspace prev
+bindsym $mod+$win+l workspace next
  
-# Alternate between bordure modes
-bindsym $mod+b border toggle
-
 # Keyboard settings
 input type:keyboard {
-	xkb_layout fr
+	xkb_layout custom,custom(dev)
 	xkb_numlock enable
 	xkb_options caps:swapescape
+    repeat_rate 30
 }
 
 # Touchpad settings
 input type:touchpad {
 	tap enabled
 	scroll_method two_finger
+    pointer_accel 0.3
 }
 
 # Media keys binding

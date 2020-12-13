@@ -1,0 +1,34 @@
+partial default alphanumeric_keys
+xkb_symbols "basic" {
+    include "fr"
+    include "custom(basic_modifier)"
+    name[Group1]="Modified fr";
+};
+
+partial hidden modifier_keys
+xkb_symbols "basic_modifier" {
+    // Shift + LWIN to change the group
+    key <LWIN>  { [ Super_L,        ISO_Next_Group ] };
+};
+
+
+partial alphanumeric_keys
+xkb_symbols "dev" {
+    include "custom(basic)"
+    include "custom(dev_modifier)"
+
+    name[Group1]="Modified fr for dev";
+
+    // while programming i use english so accuentuated character are useless
+    // however 'é', 'è', 'ç', and 'à' are used in my sway mappings
+
+    // map '/' on first level instead of 'ù'
+    key <AC11>  { [ slash,          percent,        dead_circumflex, dead_caron     ] };
+};
+
+partial hidden modifier_keys
+xkb_symbols "dev_modifier" {
+    // map '{', '}', '[' and ']' instead of Menu
+    key <MENU>  { [ braceleft,      braceright,     bracketleft,    bracketright    ] };
+};
+
