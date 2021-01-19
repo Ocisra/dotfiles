@@ -3,6 +3,8 @@ xkb_symbols "basic" {
     include "fr"
     include "custom(basic_modifier)"
     name[Group1]="Modified fr";
+
+    key <SPCE>  { [ space,          nobreakspace,   Multi_key ] };
 };
 
 partial hidden modifier_keys

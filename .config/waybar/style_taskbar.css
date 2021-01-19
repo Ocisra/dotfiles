@@ -1,0 +1,7 @@
+* {
+    background-color: #111111;
+}
+
+window#waybar.hidden {
+    opacity: 2.0;
+}

@@ -1,0 +1,86 @@
+/* THEMES:
+ *
+ *          font        music background
+ *
+ * orange:  #ddbb20     #665511
+ * green :  #44cc20     #226611
+ *
+ */
+
+
+* {
+    border: none;
+    border-radius: 0;
+    padding: 0px;
+    font-family:  FreeSansMono;
+    font-size: 15px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #111111; 
+    transition-property: background-color;
+    transition-duration: 0s;
+    padding: 0px;
+}
+
+#workspaces button {
+    background-color: transparent;
+    color: #555555;
+    padding: 0 5px;
+    min-width: 42px;
+}
+#workspaces button#sway-workspace-5\:Music {
+    min-width: 49px;
+}
+#workspaces button#sway-workspace-9\:Message {
+    min-width: 74px;
+}
+#workspaces button.focused {
+    background-color: #111111;
+    color: #ddbb20;
+    /*font-weight: bold;*/
+    box-shadow: inset 0 -2px #ddbb20;
+}
+#workspaces button:hover {
+    transition: none;
+    color: #ddbb20;
+}
+#mode, #workspaces button.urgent {
+    background-color: #ddbb20;
+    font-weight: bold;
+    color: #111111;
+    padding: 0 5px;
+}
+
+#network, #battery, #clock, #tray {
+    margin-left: 15px;
+    background-color: transparent;
+    color: #ddbb20;
+    padding: 0 5px;
+}
+#battery, #battery.* {
+    /* time is not padded with 0s so i must fix a size to prevent it from moving */
+    min-width: 105px;
+}
+#network.disabled {
+    background-color: #dd2222;
+    color: #ffffff;
+}
+#battery.discharging.warning {
+    background-color: #bbbb11;
+    color: #000000;
+}
+#battery.discharging.critical {
+    background-color: #991111;
+    color: #000000;
+}
+#custom-media {
+    padding: 0 5px;
+    min-width: 700px;
+}
+#custom-media.custom-spotify, #custom-media.custom-ncspot {
+    background-image: linear-gradient(to right, #111111, #66560e, #111111);
+    /* A little complementary to improve lisibility without being noticeable */
+    color: #ddeeff;
+}

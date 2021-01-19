@@ -1,7 +1,7 @@
 packadd termdebug
 let g:termdebug_wide=163
 
-noremap <F6> <Esc>:Termdebug<CR>
+noremap <F6> <Esc>:Termdebug
 noremap <F5> <Esc>:Run<CR>
 noremap <F17> <Esc>:Stop<CR>
 noremap <F10> <Esc>:Over<CR>
@@ -10,6 +10,7 @@ noremap <F9> <Esc>:Break<CR>
 noremap <F21> <Esc>:Clear<CR>
 noremap <F7> <Esc>:!make
 
+nnoremap <leader>gh :ClangdSwitchSourceHeader<CR>
 
 
 let g:tagbar_type_cpp = {

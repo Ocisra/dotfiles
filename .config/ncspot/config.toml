@@ -1,0 +1,44 @@
+volnorm = true
+album_column = false
+
+[saved_state]
+repeat = "playlist"
+shuffle = true
+volume = 100
+
+[theme]
+background = "#111111"
+primary = "#DDDDDD"
+secondary = "#333333"
+title = "#DDBB20"
+playing = "#DDBB20"
+playing_selected = "#DDBB20"
+playing_bg = "#111111"
+highlight = "#DDBB20"
+highlight_bg = "#000000"
+error = "#FFE4E4"
+error_bg = "#DD3300"
+statusbar = "#111111"
+statusbar_progress = "#bb9e1b"
+statusbar_bg = "#887314"
+cmdline = "#EEE0BB"
+cmdline_bg = "#202020"
+
+#[theme]
+#background = "black"
+#primary = "light white"
+#secondary = "light black"
+#title = "green"
+#playing = "green"
+#playing_selected = "light green"
+#playing_bg = "black"
+#highlight = "light white"
+#highlight_bg = "#484848"
+#error = "light white"
+#error_bg = "red"
+#statusbar = "black"
+#statusbar_progress = "green"
+#statusbar_bg = "green"
+#cmdline = "light white"
+#cmdline_bg = "black"
+#search_match = "light red"

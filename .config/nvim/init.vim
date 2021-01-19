@@ -3,23 +3,23 @@
 call plug#begin('~/.config/nvim/plugged')
 
 " color scheme
+
 Plug 'morhetz/gruvbox'
 set termguicolors
 let g:gruvbox_bold=0
 let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_dark='medium'
 let g:gruvbox_sign_column='bg0'
-" Plug 'tomasiser/vim-code-dark'
 Plug 'bfrg/vim-cpp-modern'
 
 " latex
-Plug 'lervag/vimtex'
-let g:tex_flavor='latex'
-let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=0
-let g:vimtex_fold_enabled=1
+"Plug 'lervag/vimtex'
+"let g:tex_flavor='latex'
+"let g:vimtex_view_method='zathura'
+"let g:vimtex_quickfix_mode=0
+"let g:vimtex_fold_enabled=1
 set conceallevel=2
-let g:tex_conceal='abdmg'
+"let g:tex_conceal='abdmg'
 
 " snipets
 Plug 'sirver/ultisnips'
@@ -42,14 +42,12 @@ Plug 'preservim/nerdcommenter'
 " tag bar
 Plug 'majutsushi/tagbar'
 let g:tagbar_compact=2
-let g:tagbar_ctags_options=['/home/ocisra/.config/ctags/']
 
 " line for each indentation
 Plug 'yggDroot/indentline'
 
 " lsp
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/diagnostic-nvim'
 let g:diagnostic_insert_delay=1
 
 " completion
@@ -71,13 +69,27 @@ call plug#end()
 
 " load ls 
 lua << EOF
+
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text=false,
+        }
+    )
+
     local on_attach_vim = function(client)
         require'completion'.on_attach(client)
-        require'diagnostic'.on_attach(client)
     end
-    require'nvim_lsp'.clangd.setup{on_attach=on_attach_vim}
-    require'nvim_lsp'.bashls.setup{on_attach=on_attach_vim}
-    require'nvim_lsp'.vimls.setup{on_attach=on_attach_vim}
+
+    local sumneko_root_path = "/home/ocisra/build/lua-language-server"
+
+    require'lspconfig'.clangd.setup{on_attach=on_attach_vim}
+    require'lspconfig'.bashls.setup{on_attach=on_attach_vim}
+    require'lspconfig'.vimls.setup{on_attach=on_attach_vim}
+    require'lspconfig'.sumneko_lua.setup{
+        on_attach=on_attach_vim,
+        cmd={sumneko_root_path .. "/bin/Linux/lua-language-server", "-E", sumneko_root_path .. "/main.lua" },
+    }
+    require'lspconfig'.texlab.setup{on_attach=on_attach_vim}
 EOF
 " }}}
 " System ------------------------------- {{{
@@ -104,19 +116,20 @@ set noswapfile
 " Color --------- ----------------------- {{{
 " syntax highlighting
 filetype plugin on
-syntax on
+syntax enable
 
 " color scheme
 set t_Co=256
 colorscheme gruvbox
+hi NonText guifg=#ff0000
 
 " lsp diagnostics
 " highlights won't break if the colorscheme is changed but it may not render
 " so well
-call sign_define("LspDiagnosticsErrorSign", {"text": ">>", "texthl": "ErrorMsg"})
-call sign_define("LspDiagnosticsWarningSign", {"text": "--", "texthl": "WarningMsg"})
-call sign_define("LspDiagnosticsInformationSign", {"text": "..", "texthl": "Question"})
-call sign_define("LspDiagnosticsHintSign", {"text": ".", "texthl": "Title"})
+sign define LspDiagnosticsSignError text=>> texthl=ErrorMsg
+sign define LspDiagnosticsSignWarning text=-- texthl=WarningMsg
+sign define LspDiagnosticsSignInformation text=.. texthl=Question
+sign define LspDiagnosticsSignHint text=. texthl=Title
 
 " highlight current line
 set cursorline
@@ -128,14 +141,14 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 set shiftwidth=4
-set softtabstop=4
 
 " folding
 set foldenable
 set foldmethod=syntax
 set foldnestmax=10
-set foldlevelstart=3
-nnoremap <space> za
+set foldlevelstart=5
+
+set textwidth=80
 
 " line break not in the middle of a word
 set linebreak
@@ -147,8 +160,15 @@ set whichwrap=b,s,<,>,[,]
 " leader
 let mapleader=","
 
+" remove search highlight
+nnoremap <leader>vhl :nohl<CR>
+
+" toggle vim options
+nnoremap <leader>vl :set list!<CR>
+nnoremap <leader>vn :set relativenumber!<CR>
+
 " source shortcut
-noremap <leader>sv <cmd>source ~/.config/nvim/init.vim<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " completion
 inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -165,28 +185,43 @@ nnoremap <leader>m :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
-" jumps
-noremap <leader>o <C-o>
-noremap <leader>i <C-i>
+" movement
+nnoremap j gj
+nnoremap k gk
+
+" quickfix
+nnoremap cn :cn<CR>
+nnoremap cp :cp<CR>
+nnoremap gc :.cc<CR>
+nnoremap cq :ccl<CR>
+
+" buffer
+nnoremap bn :bn<CR>
+nnoremap bp :bp<CR>
 
 " lsp
 " unconvenient mapping is wanted, they are only used while debugging 
-noremap <F2> <cmd>lua vim.lsp.buf.code_action()<CR>
-noremap <F14> <cmd>lua vim.lsp.buf.formatting()<CR>
-noremap <F3> <cmd>lua vim.lsp.buf.rename()<CR>
-noremap <F15> <cmd>lua vim.lsp.buf.references()<CR>
-noremap <F16> <cmd>lua vim.lsp.buf.type_definition()<CR>
-noremap <F4> <cmd>lua vim.lsp.buf.declaration()<CR>
-noremap <leader>d <cmd>lua vim.lsp.buf.definition()<CR>
-noremap <leader>ee <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
-noremap <leader>ep <cmd>PrevDiagnosticCycle<CR>
-noremap <leader>en <cmd>NextDiagnosticCycle<CR>
+nnoremap <leader>= <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <leader>aa <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>h <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>ar <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>qb <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <leader>qw <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <leader>qi <cmd>lua vim.lsp.buf.incoming_calls()<CR>
+nnoremap <leader>qo <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
+nnoremap <leader>gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <leader>gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <leader>gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <leader>ee <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <leader>ep <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <leader>en <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 
 " undotree
 " shift F1 is not convenient, change if i use regularly 
 inoremap <F13> <cmd>UndotreeToggle<CR>
-noremap <F13> <cmd>UndotreeToggle<CR>
+nnoremap <F13> <cmd>UndotreeToggle<CR>
 
 " window navigation
 nnoremap <C-h> <C-w>h
@@ -209,6 +244,10 @@ tnoremap <C-l> <C-\><C-N><C-w>l
 " Misc -------------------------------- {{{
 " line number
 set number
+set relativenumber
+
+" list show unwanted spaces, highlighted with NonText
+set listchars=tab:<->,trail:-,nbsp:+
 
 " command line 
 set noshowcmd
@@ -219,11 +258,14 @@ set ignorecase
 set smartcase
 set incsearch
 
+" let some line between the cursor and the edge of the screen
+set scrolloff=3
+
 " menu for tab complete
 set wildmenu
 
 set modeline
-set modelines=5
+set modelines=3
 
 set splitbelow
 set splitright
@@ -238,7 +280,7 @@ command RightColumn :source ~/.config/nvim/scripts/right-column.vim
 set laststatus=2
 
 function! ErrorCount() abort 
-    let l:errorCount=luaeval("vim.lsp.util.buf_diagnostics_count([[Error]])")
+    let l:errorCount=luaeval("vim.lsp.diagnostic.get_count(0,[[Error]])")
     if l:errorCount != 0
         return l:errorCount
     endif
@@ -246,7 +288,7 @@ function! ErrorCount() abort
 endfun
 
 function! WarningCount() abort
-    let l:warningCount=luaeval("vim.lsp.util.buf_diagnostics_count([[Warning]])")
+    let l:warningCount=luaeval("vim.lsp.diagnostic.get_count(0,[[Warning]])")
     if l:warningCount != 0
         return l:warningCount
     endif

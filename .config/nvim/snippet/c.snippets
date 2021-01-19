@@ -1,22 +1,23 @@
-snippet def "define" bA
+# Those exists so I don't have to type the '#' that is hard to reach on azerty
+# No closing '>' or '"' because the completion does it
+snippet df "define" bA
 #define
 endsnippet
 
 snippet ic "include" bA
-#include <$1>
-$0
+#include <$1
 endsnippet
 
-snippet icc "include custom header" bA
-#include "$1"
-$0
+snippet ihc "include custom header" bA
+#include "$1
 endsnippet
 
-snippet dfn "doxygen like documented function" w
+
+# I write the comments after the function so no need to place a jump
+snippet doxfn "doxygen like documented function" w
 /**
- * @brief $4
+ * @brief
  *
- * @return
  */
 $1 ($2) {
 	$0
