@@ -17,6 +17,19 @@ set $ws8 "8:Text"
 set $ws9 "9:Message"
 set $ws10 "10:Web"
 
+set $ws00 "00:Mon"
+set $ws01 "01:Term"
+set $ws02 "02:Term"
+set $ws03 "03:Code"
+set $ws04 "04:Code"
+set $ws05 "05:Music"
+set $ws06 "06"
+set $ws07 "07"
+set $ws08 "08:Text"
+set $ws09 "09:Message"
+set $ws010 "010:Web"
+
+
 # Window's title font. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
  
@@ -115,7 +128,33 @@ bindsym $mod+Shift+egrave move container to workspace $ws7
 bindsym $mod+Shift+underscore move container to workspace $ws8
 bindsym $mod+Shift+ccedilla move container to workspace $ws9
 bindsym $mod+Shift+agrave move container to workspace $ws10
+
+# Move between workspaces (keybinds ate those of an azerty keyboard)
+bindsym $win+twosuperior workspace $ws00
+bindsym $win+ampersand workspace $ws01
+bindsym $win+eacute workspace $ws02
+bindsym $win+quotedbl workspace $ws03
+bindsym $win+apostrophe workspace $ws04
+bindsym $win+parenleft workspace $ws05
+bindsym $win+minus workspace $ws06
+bindsym $win+egrave workspace $ws07
+bindsym $win+underscore workspace $ws08
+bindsym $win+ccedilla workspace $ws09
+bindsym $win+agrave workspace $ws010
  
+# Move active window between workspaces (keybinds are those of an azerty keyboard)
+bindsym $win+Shift+twosuperior move container to workspace $ws00
+bindsym $win+Shift+ampersand move container to workspace $ws01
+bindsym $win+Shift+eacute move container to workspace $ws02
+bindsym $win+Shift+quotedbl move container to workspace $ws03
+bindsym $win+Shift+apostrophe move container to workspace $ws04
+bindsym $win+Shift+parenleft move container to workspace $ws05
+bindsym $win+Shift+minus move container to workspace $ws06
+bindsym $win+Shift+egrave move container to workspace $ws07
+bindsym $win+Shift+underscore move container to workspace $ws08
+bindsym $win+Shift+ccedilla move container to workspace $ws09
+bindsym $win+Shift+agrave move container to workspace $ws010
+
 # Reload wayland (read this file)
 bindsym $mod+Shift+C reload
  
@@ -253,6 +292,10 @@ bindsym $mod+$win+Left workspace prev
 bindsym $mod+$win+Right workspace next
 bindsym $mod+$win+h workspace prev
 bindsym $mod+$win+l workspace next
+
+# Mouse keys
+bindsym --whole-window button6 move to output right
+bindsym --whole-window button7 focus output right
  
 # Keyboard settings
 input type:keyboard {
@@ -296,6 +339,7 @@ bindsym XF86Sleep exec swaylock -C ~/.config/swaylock/config
 output "*" bg ~/.config/sway/arch-orange.png fill
 
 # Exec at sway launch
+exec kanshi
 exec swaymsg workspace $ws1
 exec gammastep -l 48.44:1.49 -t 5500:2500
 exec "systemctl --user import-environment; systemctl --user start sway-session.target"

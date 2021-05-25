@@ -1,10 +1,11 @@
-{
+[{
     "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 25, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["custom/media"],
     "modules-right": ["network", "battery", "clock", "tray"],
+    "output": "eDP-1",
 
 
     "sway/workspaces": {
@@ -51,4 +52,50 @@
         "format-alt": "↑{bandwidthUpBits} - ↓{bandwidthDownBits}",
         "tooltip-format-alt": "{frequency}"
     },
-}
+}, {
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 25, // Waybar height (to be removed for auto height)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["network", "battery", "clock", "tray"],
+    "output": "HDMI-A-2",
+
+
+    "sway/workspaces": {
+        "format": "{name}",
+        "smooth-scrolling-threshold": 20
+
+    },
+    "sway/mode": {
+        "format": "{}"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "design-capacity": true,
+        "format-time": "{H}:{M}",
+        "format": "BAT {capacity}% {time}",
+        "format-charging": "CHR {capacity}% {time}",
+        "tooltip": false
+    },
+    "clock": {
+        "interval": 5,
+        "format": "{:%T}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "tooltip-format-wifi": "{ipaddr} - {netmask}",
+        "format-alt": "↑{bandwidthUpBits} - ↓{bandwidthDownBits}",
+        "tooltip-format-alt": "{frequency}"
+    },
+}]
