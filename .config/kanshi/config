@@ -1,0 +1,16 @@
+profile laptop-only {
+    output eDP-1 enable
+}
+
+profile external-only {
+    output HDMI-A-2 enable transform 90
+}
+
+profile laptop-external {
+    output eDP-1 enable position 1080,700
+    output HDMI-A-2 enable position 0,0 transform 90
+    exec swaymsg assign [class="Spotify"] output HDMI-A-2
+    exec swaymsg for_window [title="LibreOffice"] move container to output HDMI-A-2
+    exec swaymsg for_window [title="Qalculate!"] move container to output HDMI-A-2
+    exec export BEMENU_OPTS="--monitor=1"
+}

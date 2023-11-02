@@ -1,0 +1,22 @@
+edge=top
+font=DejaVu Sans Mono
+
+[green]
+background=000000
+border=009900
+border-bottom=009900
+button-background=000000
+text=009900
+border-bottom-size=1
+details-border-size=1
+button-border=1
+
+[orange]
+background=111111
+border=ddbb20
+border-bottom=997711
+button-background=111111
+text=ddbb20
+border-bottom-size=1
+details-border-size=1
+button-border=1

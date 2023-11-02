@@ -1,0 +1,116 @@
+[{
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 25, // Waybar height (to be removed for auto height)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["custom/media"],
+    "modules-right": ["network", "battery", "clock", "tray"],
+    "output": "eDP-1",
+
+
+    "sway/workspaces": {
+        // "format": "{name}",
+        "format": "{index}",
+        "smooth-scrolling-threshold": 20
+
+    },
+    "sway/mode": {
+        "format": "{}"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "design-capacity": true,
+        "format-time": "{H}:{m}",
+        "format": "BAT {capacity}% {time}",
+        "format-charging": "CHR {capacity}% {time}",
+        "tooltip": false
+    },
+    "clock": {
+        "interval": 5,
+        "format": "{:%H:%M:%OS}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "locale": "fr_FR.UTF-8",
+        "calendar": {
+            "mode"          : "year",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "left",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>    Mo Tu We Th Fr Sa Su       Mo Tu We Th Fr Sa Su       Mo Tu We Th Fr Sa Su</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                }
+            },
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "custom/media": {
+        "format": "{}",
+        "return-type": "json",
+        "max-length": 50,
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "tooltip-format-wifi": "{ipaddr} - {netmask}",
+        "format-alt": "↑{bandwidthUpBits} - ↓{bandwidthDownBits}",
+        "tooltip-format-alt": "{frequency}"
+    },
+}, {
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 25, // Waybar height (to be removed for auto height)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["network", "battery", "clock", "tray"],
+    "output": "HDMI-A-2",
+
+
+    "sway/workspaces": {
+        //"format": "{name}",
+        "format": "{index}",
+        "smooth-scrolling-threshold": 20
+
+    },
+    "sway/mode": {
+        "format": "{}"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "design-capacity": true,
+        "format-time": "{H}:{M}",
+        "format": "BAT {capacity}% {time}",
+        "format-charging": "CHR {capacity}% {time}",
+        "tooltip": false
+    },
+    "clock": {
+        "interval": 5,
+        "format": "{:%T}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "tooltip-format-wifi": "{ipaddr} - {netmask}",
+        "format-alt": "↑{bandwidthUpBits} - ↓{bandwidthDownBits}",
+        "tooltip-format-alt": "{frequency}"
+    },
+}]

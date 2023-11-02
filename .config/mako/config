@@ -1,0 +1,11 @@
+font=JetBrains Mono
+
+background-color=#11111199
+text-color=#ddbb20
+border-color=#ddbb20
+progress-color=over #ddbb2055
+
+[urgency=critical]
+background-color=#ddbb20ff
+text-color=#080808
+
