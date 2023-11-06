@@ -164,32 +164,6 @@ mode "Nagbar" {
 
 bindsym $mod+n mode "Nagbar"
 
-# Swaybar settings (can also use i3bar)
-#bar {
-        # Embed i3status in swaybar
-        #status_command ~/.config/i3status/playerctl.sh
-        # Bar position (top | bottom)
-        #position bottom
-        # System-tray stay on first screen
-        #tray_output primary
-        # Remove the number from workspaces' names
-        #strip_workspace_numbers yes
-        # Hide and only show when win pressed
-        #mode dock
-        # hidden_state hide
-        # modifier $win
-        # Color of workspaces
-        #colors {
-            #                   border  background  text
-            #focused_workspace  #00DD00 #000000     #00DD00
-            #inactive_workspace  #222222 #111111     #555555
-            #urgent_workspace    #000000 #009900     #000000
-            # Font color
-            #statusline     #009900
-            #separator       #666666
-        #}
-#}
-
 #bar {
         #swaybar_command /home/ocisra/script/waybar_taskbar
         #mode overlay
@@ -245,8 +219,8 @@ client.urgent           #EEC922 #EEC922     #000000 #FFD825     #EEC922
 client.background       #FFFFFF
 
 # Launch specific applications
-bindsym $mod+$win+f exec firefox
 bindsym Print exec grim -g "$(slurp)" "/home/ocisra/Downloads/$(date +'%Y%m%d-%X').png"
+bindsym $mod+t exec bash -c -- "kill -SIGUSR1 $(pidof waybar | grep -o '[0-9]*$')"
 
 # Navigating between workspaces with arrows and hl
 bindsym $mod+$win+Left workspace prev
@@ -315,7 +289,7 @@ bindgesture pinch:4:outward output - transform normal
 
 # Wob
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob -t 2000 -a top \
+exec_always rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob -t 2000 -a top \
     --border-color \#997711FF --background-color \#00000077 --bar-color \#997711FF \
     --overflow-mode nowrap -W 500 -H 20 -b 1 -p 2 -M 4
 

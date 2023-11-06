@@ -1,14 +1,439 @@
 {
     "layer": "top",
     "position": "left",
+    "spacing": 25,
     "width": 40,
-    "modules-center": ["wlr/taskbar"],
+    "start_hidden": true,
+    "mode": "hide",
+    "modules-left": [
+        "group/taskbar",
+    ],
+    "modules-right": [
+        "group/music",
+        "group/pulseaudio",
+        "group/backlight",
+        "group/memory",
+        "group/cpu",
+        "group/temperature",
+        "group/fan",
+        "group/disk",
+        "group/battery",
+        "group/bluetooth",
+        "group/network-wifi",
+        "group/network-ethernet",
+        "group/power",
+    ],
 
+// TASKBAR
+    "group/taskbar": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/taskbar-title",
+            "wlr/taskbar",
+        ]
+    },
+    "custom/taskbar-title": {
+        "interval": "once",
+        "tooltip": false,
+        "format": "",
+    },
     "wlr/taskbar": {
         "all-outputs": true,
         "icon-size": 20,
         "tooltip-format": "{title}",
         "on-click": "minimize-raise",
-        "on-click-right": "close"
+        "on-click-right": "close",
+    },
+
+// BACKLIGHT
+    "group/backlight": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "backlight#title",
+            "backlight/slider",
+            "backlight",
+        ]
+    },
+    "backlight#title": {
+        "format": "{icon}",
+        "tooltip": false,
+        "format-icons": ["󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩕", "󱩖"],
+    },
+    "backlight": {
+        "tooltip": false,
+    },
+    "backlight/slider": {
+        "orientation": "vertical",
+        "tooltip": false,
+    },
+
+// SOUND
+    "group/pulseaudio": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "pulseaudio#title",
+            "pulseaudio/slider",
+            "pulseaudio",
+        ]
+    },
+    "pulseaudio#title": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false,
+    },
+    "pulseaudio": {
+        "tooltip": false,
+
+    },
+    "pulseaudio/slider": {
+        "orientation": "vertical",
+        "tooltip": false,
+    },
+
+// BLUETOOTH
+    "group/bluetooth": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "bluetooth#title",
+            "bluetooth",
+        ]
+    },
+    "bluetooth#title": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-on": "",
+        "format-off": "󰂲",
+        "format-connected": "󰂱",
+        "tooltip": false,
+    },
+    "bluetooth": {
+        "format": "{num_connections}",
+        "tooltip": false,
+    },
+
+// TEMPERATURE
+    "group/temperature": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "temperature#title",
+            "temperature#cpu",
+        ]
+    },
+    "temperature#title": {
+        "interval": 1000000,
+        "format": "󰔄",
+        "tootltip": false,
+    },
+    "temperature#cpu": {
+        "thermal-zone": 6,
+        "format": " 󰍛\n{temperatureC}°C",
+        "tooltip": false,
+    },
+
+// MUSIC
+    "group/music": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "custom/music-title",
+            "custom/music0",
+            "custom/music1",
+            "custom/music2",
+            "custom/music3",
+        ]
+    },
+    "custom/music-title": {
+        "interval": "once",
+        "format": "",
+        "tooltip": false,
+    },
+    "custom/music0": {
+        "interval": "once",
+        "format": "󰓛",
+        "on-click": "playerctl stop",
+        "tooltip": false,
+    },
+    "custom/music1": {
+        "interval": "once",
+        "format": "󰒮",
+        "on-click": "playerctl previous",
+        "tooltip": false,
+    },
+    "custom/music2": {
+        "interval": "once",
+        "format": "󰒭",
+        "on-click": "playerctl next",
+        "tooltip": false,
+    },
+    "custom/music3": {
+        "interval": "once",
+        "format": "󰐎",
+        "on-click": "playerctl play-pause",
+        "tooltip": false,
+    },
+
+// POWER
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/power-title",
+            "custom/power0",
+            "custom/power1",
+            "custom/power2",
+        ]
+    },
+    "custom/power-title": {
+        "format": "󰐦",
+        "interval": "once",
+        "tooltip": false,
+    },
+    "custom/power0": {
+        "format": "󰐥",
+        "tooltip": false,
+        "interval": "once",
+        "on-click": "poweroff",
+    },
+    "custom/power1": {
+        "format": "󰍁",
+        "tooltip": false,
+        "interval": "once",
+        "on-click": "swaylock -C ~/.config/swaylock/config",
+    },
+    "custom/power2": {
+        "format": "󰜉",
+        "tooltip": false,
+        "interval": "once",
+        "on-click": "reboot",
+    },
+
+// FAN
+    "group/fan": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/fan-title",
+            "custom/fan",
+        ]
+    },
+    "custom/fan-title": {
+        "format": "󰈐",
+        "interval": "once",
+        "tooltip": false,
+    },
+    "custom/fan": {
+        "interval": 60,
+        "exec": "~/.config/waybar/fan.sh",
+        "format": "{}\nRPM",
+    },
+
+// WIFI
+    "group/network-wifi": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "network#title-wifi",
+        ]
+    },
+    "network#title-wifi": {
+        "interface": "wlp2s0",
+        "format": "{icon}",
+        "format-disconnected": "󰤮",
+        "format-linked": "󰤫",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "tooltip-format": "{essid} \t{gwaddr}\\{cidr}\n{ipaddr}\n🡓{bandwidthDownBytes} 🡑{bandwidthUpBytes}",
+        "tooltip-format-disconnected": "N/A",
+    },
+//  "network#wifi": {
+//      "interface": "wlp2s0",
+//      "format": "{essid}",
+//      "tooltip": false,
+//  },
+
+// ETHERNET
+    "group/network-ethernet": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "network#title-ethernet",
+        ]
+    },
+    "network#title-ethernet": {
+        "interface": "eth0",
+        "format": "{icon}",
+        "format-disconnected": "󰣽",
+        "format-linked": "󰣵",
+        "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+        "tooltip-format": "{essid} \t{gwaddr}\\{cidr}\n{ipaddr}\n🡓{bandwidthDownBytes} 🡑{bandwidthUpBytes}",
+        "tooltip-format-disconnected": "N/A",
+    },
+//  "network#ethernet": {
+//      "interface": "eth0",
+//      "format": "{essid}",
+//      "tooltip": false,
+//  },
+
+// MEMORY
+    "group/memory": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "memory#title",
+            "memory",
+        ]
+    },
+    "memory#title": {
+        "interval": 1000000,
+        "format": "󰘚",
+        "tooltip": false,
+    },
+    "memory": {
+        "format": "{percentage}%",
+        "tooltip": false,
+    },
+
+// DISK
+    "group/disk": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "disk#title",
+            "disk#root",
+            "disk#home",
+        ]
+    },
+    "disk#title": {
+        "interval": 1000000,
+        "format": "",
+        "tooltip": false,
+    },
+    "disk#root": {
+        "format": " \n{percentage_used}%",
+        "tooltip": false,
+    },
+    "disk#home": {
+        "path": "/home",
+        "format": " \n{percentage_used}%",
+        "tooltip": false,
+    },
+
+//  CPU
+    "group/cpu": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "cpu#title",
+            "cpu",
+        ]
+    },
+    "cpu#title": {
+        "interval": 1000000,
+        "format": "󰍛",
+        "tooltip": false,
+    },
+    "cpu": {
+        "format":        "{icon0}\n{icon1}\n{icon2}\n{icon3}\n{icon4}\n{icon5}\n{icon6}\n{icon7}\n{load}\n{usage}%",
+        "tooltip": false,
+        "format-icons": [
+            "<span color='#69ff94'>▎</span>", // green
+            "<span color='#2aa9ff'>▌</span>", // blue
+            "<span color='#f8f8f2'>▊</span>", // white
+            "<span color='#f8f8f2'>█</span>", // white
+            "<span color='#ffffa5'>█▎</span>", // yellow
+            "<span color='#ffffa5'>█▌</span>", // yellow
+            "<span color='#ff9977'>█▊</span>", // orange
+            "<span color='#dd532e'>██</span>"  // red
+        ]
+    },
+
+
+// BATTERY
+    "group/battery": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 200,
+        },
+        "modules": [
+            "battery#title",
+            "battery",
+        ]
+    },
+    "battery#title": {
+        "design-capacity": true,
+        "format": "󰁹",
+        "states": {
+            "10": 10,
+            "20": 20,
+            "30": 30,
+            "40": 40,
+            "50": 50,
+            "60": 60,
+            "70": 70,
+            "80": 80,
+            "90": 90,
+            "100": 100,
+        },
+        "format-charging-10": "󰢜",
+        "format-charging-20": "󰂆",
+        "format-charging-30": "󰂇",
+        "format-charging-40": "󰂈",
+        "format-charging-50": "󰢝",
+        "format-charging-60": "󰂉",
+        "format-charging-70": "󰢞",
+        "format-charging-80": "󰂊",
+        "format-charging-90": "󰂋",
+        "format-charging-100": "󰂅",
+        "format-discharging-10": "󰁺",
+        "format-discharging-20": "󰁻",
+        "format-discharging-30": "󰁼",
+        "format-discharging-40": "󰁽",
+        "format-discharging-50": "󰁾",
+        "format-discharging-60": "󰁿",
+        "format-discharging-70": "󰂀",
+        "format-discharging-80": "󰂁",
+        "format-discharging-90": "󰂂",
+        "format-discharging-100": "󰁹",
+        "tooltip": false,
+    },
+    "battery": {
+        "design-capacity": true,
+        "tooltip": false,
     },
 }

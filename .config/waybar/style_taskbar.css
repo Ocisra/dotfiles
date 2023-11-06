@@ -5,3 +5,82 @@
 window#waybar.hidden {
     opacity: 2.0;
 }
+
+slider {
+    margin: 0;
+    padding: 0;
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+trough {
+    min-height: 80px;
+    min-width: 10px;
+    border-radius: 5px;
+    border-color: #ddbb20;
+    padding: 1px;
+    background-color: black;
+}
+
+highlight {
+    min-width: 10px;
+    border-radius: 5px;
+    background-color: #ddbb20;
+}
+
+#backlight.title, #pulseaudio.title, #battery.title, #bluetooth.title, #cpu.title, #disk.title, #memory.title, #network.title-ethernet, #network.title-wifi, #temperature.title, #custom-music-title, #custom-power-title, #custom-taskbar-title, #custom-fan-title {
+    padding-top:5px;
+    /*padding-bottom:30px;*/
+    font-size: 20;
+    color: #ddbb20;
+}
+
+/*Patch different width characters*/
+#backlight.title {
+    margin-left: -5px;
+}
+#pulseaudio.title {
+    margin-left: 2px;
+}
+#battery.title {
+    margin-left: 0px;
+}
+#bluetooth.title {
+    margin-left: 0px;
+}
+#cpu.title {
+    margin-left: 0px;
+}
+#disk.title {
+    margin-left: -4px;
+}
+#memory.title {
+    margin-left: -2px;
+}
+#network.title-ethernet {
+    margin-left: -3px;
+}
+#network.title-wifi {
+    margin-left: -4px;
+}
+#temperature.title {
+    margin-left: 0px;
+}
+#custom-music-title {
+    margin-left: -2px;
+}
+#custom-power-title {
+    margin-left: 0px;
+    padding-bottom: 10px;
+}
+#custom-taskbar-title {
+    margin-left: -4px;
+    padding-top: 10px;
+}
+#custom-fan-title {
+    margin-left: -3px;
+}
