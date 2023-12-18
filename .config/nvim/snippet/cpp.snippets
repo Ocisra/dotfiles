@@ -1,0 +1,14 @@
+extends c
+
+
+snippet forit "for loop with iterator" w
+for (auto $1 = $2.begin(); $1 < $2.end(); ++$1) { 
+	$0
+}
+endsnippet
+
+snippet forran "for loop range based" w
+for (auto& $1 : $2) {
+	$0
+}
+endsnippet
