@@ -15,8 +15,6 @@ let g:gruvbox_sign_column='bg0'
 "let g:gruvbox_material_background = 'medium'
 "let g:gruvbox_material_foreground = 'original'
 
-Plug 'bfrg/vim-cpp-modern'
-
 " snippets
 Plug 'sirver/ultisnips'
 " ugly workaround so ultisnips won't override my mapping of <Tab>
@@ -60,10 +58,10 @@ if has('nvim')
     let g:diagnostic_insert_delay=1
 
     " debugger
-    Plug 'mfussenegger/nvim-dap'
+    "Plug 'mfussenegger/nvim-dap'
 
     " java
-    Plug 'mfussenegger/nvim-jdtls'    
+    "Plug 'mfussenegger/nvim-jdtls'    
 endif
 
 call plug#end()
@@ -324,13 +322,13 @@ noremap <F10> <cmd>lua require'dap'.step_over()<CR>
 noremap <F11> <cmd>lua require'dap'.step_into()<CR>
 noremap <S-F11> <cmd>lua require'dap'.step_out()<CR>
 lua << EOF
-local widgets = require'dap.ui.widgets'
-scope_sb = widgets.sidebar(widgets.scopes)
-vim.api.nvim_set_keymap('n', '<S-F4>', '<cmd>lua scope_sb.toggle()<CR>', {noremap=true,  silent=true})
-frame_sb = widgets.sidebar(widgets.frames)
-vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua frame_sb.toggle()<CR>', {noremap=true,  silent=true})
-thread_sb = widgets.sidebar(widgets.threads, {width=30}, 'topleft vsplit')
-vim.api.nvim_set_keymap('n', '<S-F3>', '<cmd>lua thread_sb.toggle()<CR>', {noremap=true,  silent=true})
+--local widgets = require'dap.ui.widgets'
+--scope_sb = widgets.sidebar(widgets.scopes)
+--vim.api.nvim_set_keymap('n', '<S-F4>', '<cmd>lua scope_sb.toggle()<CR>', {noremap=true,  silent=true})
+--frame_sb = widgets.sidebar(widgets.frames)
+--vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua frame_sb.toggle()<CR>', {noremap=true,  silent=true})
+--thread_sb = widgets.sidebar(widgets.threads, {width=30}, 'topleft vsplit')
+--vim.api.nvim_set_keymap('n', '<S-F3>', '<cmd>lua thread_sb.toggle()<CR>', {noremap=true,  silent=true})
 EOF
 
 set langmap=à@,è`
@@ -352,108 +350,108 @@ function split (str, sep)
 end
 -- }}}
 -- nvim-dap {{{
-local dap = require'dap'
-dap.defaults.fallback.external_terminal = {
-    command = 'kitty';
-    args = {'-e'};
-}
-dap.adapters = {
-    python = {
-        type = 'executable';
-        command = 'python';
-        args = { '-m', 'debugpy.adapter' };
-    },
-    codelldb = {
-        type = 'server',
-        port = "${port}",
-        executable = {
-            command = '/home/ocisra/build/codelldb-bin/extension/adapter/codelldb',
-            args = {"--port", "${port}"},
-        }
-    }
-}
-dap.configurations = {
-    python = {
-        {
-            -- The first three options are required by nvim-dap
-            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
-            request = 'launch';
-            name = "Launch";
-            program = "${file}"; -- This configuration will launch the current file if used.
-            env = {SDL_VIDEODRIVER = "x11"};
-        },{
-            -- The first three options are required by nvim-dap
-            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
-            request = 'launch';
-            name = "Launch (external terminal)";
-            program = "${file}"; -- This configuration will launch the current file if used.
-            terminal = 'external',
-            env = {SDL_VIDEODRIVER = "x11"};
-        },{
-            -- The first three options are required by nvim-dap
-            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
-            request = 'launch';
-            name = "Launch (args)";
-            program = "${file}"; -- This configuration will launch the current file if used.
-            args = function()
-                return vim.fn.input('Arguments: ')
-            end,
-            env = {SDL_VIDEODRIVER = "x11"};
-        },
-    },
-    cpp = {
-        {
-            name = 'Launch',
-            type = 'codelldb',
-            request = 'launch',
-            program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-            end,
-            cwd = '${workspaceFolder}',
-            args = {},
-            env = {LD_LIBRARY_PATH = "./libs/"},
-        },{
-            name = 'Launch (external terminal)',
-            type = 'codelldb',
-            request = 'launch',
-            program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-            end,
-            cwd = '${workspaceFolder}',
-            args = {},
-            env = {LD_LIBRARY_PATH = "./libs/"},
-            terminal = 'external',
-        },{
-            name = 'Launch (args)',
-            type = 'codelldb',
-            request = 'launch',
-            program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-            end,
-            cwd = '${workspaceFolder}',
-            args = function()
-                return split(vim.fn.input('Arguments: '))
-            end,
-            env = {LD_LIBRARY_PATH = "./libs/"},
-        },
-    },
-    asm = {
-        {
-            name = 'Launch (break _start)',
-            type = 'codelldb',
-            request = 'launch',
-            program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-            end,
-            cwd = '${workspaceFolder}',
-            args = {},
-            -- hack because stopOnEntry does not work
-            -- breakpoints also don't work
-            preRunCommands = {"b _start"},
-        }
-    }
-}
-dap.configurations.c = dap.configurations.cpp
+--local dap = require'dap'
+--dap.defaults.fallback.external_terminal = {
+--    command = 'kitty';
+--    args = {'-e'};
+--}
+--dap.adapters = {
+--    python = {
+--        type = 'executable';
+--        command = 'python';
+--        args = { '-m', 'debugpy.adapter' };
+--    },
+--    codelldb = {
+--        type = 'server',
+--        port = "${port}",
+--        executable = {
+--            command = '/home/ocisra/build/codelldb-bin/extension/adapter/codelldb',
+--            args = {"--port", "${port}"},
+--        }
+--    }
+--}
+--dap.configurations = {
+--    python = {
+--        {
+--            -- The first three options are required by nvim-dap
+--            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+--            request = 'launch';
+--            name = "Launch";
+--            program = "${file}"; -- This configuration will launch the current file if used.
+--            env = {SDL_VIDEODRIVER = "x11"};
+--        },{
+--            -- The first three options are required by nvim-dap
+--            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+--            request = 'launch';
+--            name = "Launch (external terminal)";
+--            program = "${file}"; -- This configuration will launch the current file if used.
+--            terminal = 'external',
+--            env = {SDL_VIDEODRIVER = "x11"};
+--        },{
+--            -- The first three options are required by nvim-dap
+--            type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+--            request = 'launch';
+--            name = "Launch (args)";
+--            program = "${file}"; -- This configuration will launch the current file if used.
+--            args = function()
+--                return vim.fn.input('Arguments: ')
+--            end,
+--            env = {SDL_VIDEODRIVER = "x11"};
+--        },
+--    },
+--    cpp = {
+--        {
+--            name = 'Launch',
+--            type = 'codelldb',
+--            request = 'launch',
+--            program = function()
+--                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--            end,
+--            cwd = '${workspaceFolder}',
+--            args = {},
+--            env = {LD_LIBRARY_PATH = "./libs/"},
+--        },{
+--            name = 'Launch (external terminal)',
+--            type = 'codelldb',
+--            request = 'launch',
+--            program = function()
+--                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--            end,
+--            cwd = '${workspaceFolder}',
+--            args = {},
+--            env = {LD_LIBRARY_PATH = "./libs/"},
+--            terminal = 'external',
+--        },{
+--            name = 'Launch (args)',
+--            type = 'codelldb',
+--            request = 'launch',
+--            program = function()
+--                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--            end,
+--            cwd = '${workspaceFolder}',
+--            args = function()
+--                return split(vim.fn.input('Arguments: '))
+--            end,
+--            env = {LD_LIBRARY_PATH = "./libs/"},
+--        },
+--    },
+--    asm = {
+--        {
+--            name = 'Launch (break _start)',
+--            type = 'codelldb',
+--            request = 'launch',
+--            program = function()
+--                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--            end,
+--            cwd = '${workspaceFolder}',
+--            args = {},
+--            -- hack because stopOnEntry does not work
+--            -- breakpoints also don't work
+--            preRunCommands = {"b _start"},
+--        }
+--    }
+--}
+--dap.configurations.c = dap.configurations.cpp
 -- }}}
 -- nvim-cmp {{{
     local cmp = require'cmp'
@@ -559,7 +557,7 @@ dap.configurations.c = dap.configurations.cpp
             texlab = {
                 build = {
                     args = { "-interaction=nonstopmode", "-synctex=1", "%f" },
-                    executable = "xelatex",
+                    executable = "lualatex",
                 },
             }
         }
